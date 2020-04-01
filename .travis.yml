@@ -1,0 +1,11 @@
+language:java
+jdk:
+-openjdk8
+
+addons:
+ sonarcloud:
+  organization: michelablack
+  token: 3b4af6a584df0264d3f50ecefc63e751a66c543f
+script:
+- ant build
+- sonar-scanner
