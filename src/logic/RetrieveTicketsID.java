@@ -30,9 +30,7 @@ public class RetrieveTicketsID {
 		Process p = null;
 		try {
 			p = Runtime.getRuntime().exec(code);
-			if (p == null) {
-				throw new IllegalStateException(exception);
-			}
+			exception(p);
 		} catch (IOException e) {
 			Logger logger = Logger.getAnonymousLogger();
 			logger.log(Level.SEVERE, "an exception was thrown",e);
@@ -59,9 +57,7 @@ public class RetrieveTicketsID {
            String key = issues.getJSONObject(i%1000).get("key").toString();
            Process p = process(git +folder+"\\"+projName+" log\r\n" + 
            		" --pretty=format:'%cd' --grep="+key);
-           if (p == null) {
-				throw new IllegalStateException(exception);
-			}
+           exception(p);
            BufferedReader stdInput = new BufferedReader(new 
 	                 InputStreamReader(p.getInputStream()));
        	   
@@ -143,9 +139,8 @@ public class RetrieveTicketsID {
 	         
 	         //Command to clone the project repository into the chosen directory. 
 	         Process q = process(git +folder+ " clone " +projUrl);
-	         if (q == null) {
-					throw new IllegalStateException(exception);
-				}
+	         exception(q);
+	        
 	         try {
 				q.waitFor();
 			} catch (InterruptedException e) {
@@ -161,9 +156,8 @@ public class RetrieveTicketsID {
 	            String key = issuesFixed.getJSONObject(i%1000).get("key").toString();
 	            Process p = process(git +folder+"\\"+projName+" log\r\n" + 
 	            		" --pretty=format:'%cd' --grep="+key);
-	            if (p == null) {
-					throw new IllegalStateException(exception);
-				}
+	            exception(p);
+	            
 	            BufferedReader stdInput = new BufferedReader(new 
 		                 InputStreamReader(p.getInputStream()));
 	        	List<String> list = new ArrayList<>();
@@ -203,6 +197,14 @@ public class RetrieveTicketsID {
 	      writer.write(sb.toString());
 	   }
    }
+
+private static void exception(Process p) {
+	
+	if (p == null) {
+		throw new IllegalStateException(exception);
+	}
+	
+}
 
 
 }
