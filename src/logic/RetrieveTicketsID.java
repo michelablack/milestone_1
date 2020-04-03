@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.json.JSONException;
@@ -58,6 +57,9 @@ public class RetrieveTicketsID {
            String key = issues.getJSONObject(i%1000).get("key").toString();
            Process p = process("git -C " +folder+"\\"+projName+" log\r\n" + 
            		" --pretty=format:'%cd' --grep="+key);
+           if (p == null) {
+				throw new IllegalStateException("process is null");
+			}
            BufferedReader stdInput = new BufferedReader(new 
 	                 InputStreamReader(p.getInputStream()));
        	   
@@ -85,7 +87,7 @@ public class RetrieveTicketsID {
         * so to start from the next year.
         */
        for (Integer y = lowerYear; y < (upperYear+1); y++) {
-    	   while ( !((dateList.get(d).month.equals(upperMonth)) && ((Integer.parseInt(dateList.get(d).year) == upperYear)))) {
+    	   while ( !((dateList.get(d).month.equals(upperMonth)) && (Integer.parseInt(dateList.get(d).year) == upperYear))) {
     		   Date date = new Date();
     		   String nextMonth = date.nextMonth(actualMonth);
     		   date.setMonth(nextMonth);
@@ -139,6 +141,9 @@ public class RetrieveTicketsID {
 	         
 	         //Command to clone the project repository into the chosen directory. 
 	         Process q = process("git -C " +folder+ " clone " +projUrl);
+	         if (q == null) {
+					throw new IllegalStateException("process is null");
+				}
 	         try {
 				q.waitFor();
 			} catch (InterruptedException e) {
@@ -153,6 +158,9 @@ public class RetrieveTicketsID {
 	            String key = issuesFixed.getJSONObject(i%1000).get("key").toString();
 	            Process p = process("git -C " +folder+"\\"+projName+" log\r\n" + 
 	            		" --pretty=format:'%cd' --grep="+key);
+	            if (p == null) {
+					throw new IllegalStateException("process is null");
+				}
 	            BufferedReader stdInput = new BufferedReader(new 
 		                 InputStreamReader(p.getInputStream()));
 	        	List<String> list = new ArrayList<>();
@@ -190,7 +198,6 @@ public class RetrieveTicketsID {
 	      }
 	      
 	      writer.write(sb.toString());
-	      writer.close();
 	   }
    }
 
