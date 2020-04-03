@@ -12,11 +12,11 @@
         <pathelement location="bin"/>
         <pathelement location="../../Downloads/Telegram Desktop/json-20190722.jar"/>
     </path>
-    <path id="run.RetrieveTicketsID.classpath">
+    <path id="run.RetrieveTicketsID (1).classpath">
         <path refid="GetBugIDs.classpath"/>
         <pathelement location="../../Downloads/Telegram Desktop/json-20190722.jar"/>
     </path>
-    <path id="run.RetrieveTicketsID (1).classpath">
+    <path id="run.RetrieveTicketsID.classpath">
         <path refid="GetBugIDs.classpath"/>
         <pathelement location="../../Downloads/Telegram Desktop/json-20190722.jar"/>
     </path>
@@ -56,14 +56,14 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="RetrieveTicketsID">
-        <java classname="RetrieveTicketsID" failonerror="true" fork="yes">
-            <classpath refid="run.RetrieveTicketsID.classpath"/>
-        </java>
-    </target>
     <target name="RetrieveTicketsID (1)">
         <java classname="logic.RetrieveTicketsID" failonerror="true" fork="yes">
             <classpath refid="run.RetrieveTicketsID (1).classpath"/>
+        </java>
+    </target>
+    <target name="RetrieveTicketsID">
+        <java classname="RetrieveTicketsID" failonerror="true" fork="yes">
+            <classpath refid="run.RetrieveTicketsID.classpath"/>
         </java>
     </target>
 </project>
