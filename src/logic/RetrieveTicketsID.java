@@ -21,7 +21,7 @@ public class RetrieveTicketsID {
    static String folder = "C:\\Users\\miche\\Downloads\\fold";
    static String projName ="STDCXX";
    static String git = "git -C ";
-   static String EXCEPTION = "process is null";
+   static String exception = "process is null";
    
    /**
     * Function to start a new process, which executes the code given in input.
@@ -31,7 +31,7 @@ public class RetrieveTicketsID {
 		try {
 			p = Runtime.getRuntime().exec(code);
 			if (p == null) {
-				throw new IllegalStateException("process is null");
+				throw new IllegalStateException(exception);
 			}
 		} catch (IOException e) {
 			Logger logger = Logger.getAnonymousLogger();
@@ -60,7 +60,7 @@ public class RetrieveTicketsID {
            Process p = process(git +folder+"\\"+projName+" log\r\n" + 
            		" --pretty=format:'%cd' --grep="+key);
            if (p == null) {
-				throw new IllegalStateException(EXCEPTION);
+				throw new IllegalStateException(exception);
 			}
            BufferedReader stdInput = new BufferedReader(new 
 	                 InputStreamReader(p.getInputStream()));
@@ -144,7 +144,7 @@ public class RetrieveTicketsID {
 	         //Command to clone the project repository into the chosen directory. 
 	         Process q = process(git +folder+ " clone " +projUrl);
 	         if (q == null) {
-					throw new IllegalStateException("process is null");
+					throw new IllegalStateException(exception);
 				}
 	         try {
 				q.waitFor();
@@ -162,7 +162,7 @@ public class RetrieveTicketsID {
 	            Process p = process(git +folder+"\\"+projName+" log\r\n" + 
 	            		" --pretty=format:'%cd' --grep="+key);
 	            if (p == null) {
-					throw new IllegalStateException(EXCEPTION);
+					throw new IllegalStateException(exception);
 				}
 	            BufferedReader stdInput = new BufferedReader(new 
 		                 InputStreamReader(p.getInputStream()));
