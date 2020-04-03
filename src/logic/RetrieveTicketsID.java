@@ -20,7 +20,8 @@ public class RetrieveTicketsID {
 
    static String folder = "C:\\Users\\miche\\Downloads\\fold";
    static String projName ="STDCXX";
-
+   static String git = "git -C ";
+   static String EXCEPTION = "process is null";
    
    /**
     * Function to start a new process, which executes the code given in input.
@@ -35,6 +36,7 @@ public class RetrieveTicketsID {
 		} catch (IOException e) {
 			Logger logger = Logger.getAnonymousLogger();
 			logger.log(Level.SEVERE, "an exception was thrown",e);
+			Thread.currentThread().interrupt();
 		}
 		return p;
    }
@@ -55,10 +57,10 @@ public class RetrieveTicketsID {
 	   for (; i < total && i < j; i++) {
            //Iterate through each ticket, considering the committer date 
            String key = issues.getJSONObject(i%1000).get("key").toString();
-           Process p = process("git -C " +folder+"\\"+projName+" log\r\n" + 
+           Process p = process(git +folder+"\\"+projName+" log\r\n" + 
            		" --pretty=format:'%cd' --grep="+key);
            if (p == null) {
-				throw new IllegalStateException("process is null");
+				throw new IllegalStateException(EXCEPTION);
 			}
            BufferedReader stdInput = new BufferedReader(new 
 	                 InputStreamReader(p.getInputStream()));
@@ -87,7 +89,7 @@ public class RetrieveTicketsID {
         * so to start from the next year.
         */
        for (Integer y = lowerYear; y < (upperYear+1); y++) {
-    	   while ( !((dateList.get(d).month.equals(upperMonth)) && (Integer.parseInt(dateList.get(d).year) == upperYear))) {
+    	   while ( !((dateList.get(d).getMonth().equals(upperMonth)) && (Integer.parseInt(dateList.get(d).getYear()) == upperYear))) {
     		   Date date = new Date();
     		   String nextMonth = date.nextMonth(actualMonth);
     		   date.setMonth(nextMonth);
@@ -140,7 +142,7 @@ public class RetrieveTicketsID {
 	         totalFixed = jsonFixed.getInt("total");
 	         
 	         //Command to clone the project repository into the chosen directory. 
-	         Process q = process("git -C " +folder+ " clone " +projUrl);
+	         Process q = process(git +folder+ " clone " +projUrl);
 	         if (q == null) {
 					throw new IllegalStateException("process is null");
 				}
@@ -149,6 +151,7 @@ public class RetrieveTicketsID {
 			} catch (InterruptedException e) {
 				Logger logger = Logger.getAnonymousLogger();
 				logger.log(Level.SEVERE, "an exception was thrown",e);
+				Thread.currentThread().interrupt();
 			}
 	         dateList = getBounds(i, j, issuesAll, totalAll);
 	        
@@ -156,10 +159,10 @@ public class RetrieveTicketsID {
 	         for (; i < totalFixed && i < j; i++) {
 	            //Iterate through each fixed ticket, considering the committer date
 	            String key = issuesFixed.getJSONObject(i%1000).get("key").toString();
-	            Process p = process("git -C " +folder+"\\"+projName+" log\r\n" + 
+	            Process p = process(git +folder+"\\"+projName+" log\r\n" + 
 	            		" --pretty=format:'%cd' --grep="+key);
 	            if (p == null) {
-					throw new IllegalStateException("process is null");
+					throw new IllegalStateException(EXCEPTION);
 				}
 	            BufferedReader stdInput = new BufferedReader(new 
 		                 InputStreamReader(p.getInputStream()));
@@ -189,9 +192,9 @@ public class RetrieveTicketsID {
 	      
 	      for (int k=0; k< dateList.size(); k++) {
 	     	 
-	     	 sb.append(dateList.get(k).year);
+	     	 sb.append(dateList.get(k).getYear());
 	     	 sb.append(" ");
-	     	 sb.append(dateList.get(k).month);
+	     	 sb.append(dateList.get(k).getMonth());
 	     	 sb.append(';');
 			 sb.append(count[k]);
 			 sb.append('\n');

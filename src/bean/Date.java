@@ -13,8 +13,8 @@ public class Date {
 		this.month = month;
 		this.year = year;
 	}
-	public String month;
-	public String year;
+	private String month;
+	private String year;
 	
 	public String getMonth() {
 		return month;
