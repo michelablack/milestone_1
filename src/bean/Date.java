@@ -36,8 +36,15 @@ public class Date {
 		List<String> monthList= Arrays.asList("Jan","Feb","Mar","Apr","May","Jun",
 				   "Jul","Aug","Sep","Oct","Nov","Dec");
 		int index = monthList.indexOf(month);
-		String next = monthList.get((index + 1)%(monthList.size()));
-		return next;
+		return monthList.get((index + 1)%(monthList.size()));
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((month == null) ? 0 : month.hashCode());
+		result = prime * result + ((year == null) ? 0 : year.hashCode());
+		return result;
 	}
 	@Override
 	public boolean equals(Object obj) {

@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +22,7 @@ public class RetrieveTicketsID {
    static String folder = "C:\\Users\\miche\\Downloads\\fold";
    static String projName ="STDCXX";
 
+   
    /**
     * Function to start a new process, which executes the code given in input.
     */
@@ -26,8 +30,12 @@ public class RetrieveTicketsID {
 		Process p = null;
 		try {
 			p = Runtime.getRuntime().exec(code);
+			if (p == null) {
+				throw new IllegalStateException("process is null");
+			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger logger = Logger.getAnonymousLogger();
+			logger.log(Level.SEVERE, "an exception was thrown",e);
 		}
 		return p;
    }
@@ -134,7 +142,8 @@ public class RetrieveTicketsID {
 	         try {
 				q.waitFor();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Logger logger = Logger.getAnonymousLogger();
+				logger.log(Level.SEVERE, "an exception was thrown",e);
 			}
 	         dateList = getBounds(i, j, issuesAll, totalAll);
 	        
